@@ -207,14 +207,3 @@ History Master/
 | `RETRIEVAL_TOP_K` / `RETRIEVAL_FLOOR` | 5 / 0.15 | chunks fetched / cheap pre-filter floor (precise guard is the LLM `NOT_IN_KB` contract) |
 | `CHUNK_SIZE` / `CHUNK_OVERLAP` | 1000 / 150 | splitter settings |
 
-## 📌 Notes for the viva
-
-- **Why Chroma?** A real persistent vector database (HNSW index, metadata filtering) — survives
-  restarts, supports incremental add/delete. SQLite stores only relational metadata
-  (users/sessions/messages/document registry).
-- **Why local embeddings?** Ingestion stays free/fast/offline; only answering needs the LLM API.
-  Switchable to API embeddings via one env var.
-- **Grounding contract:** system prompt forbids outside knowledge; the literal `NOT_IN_KB` reply
-  is mapped to the polite fallback; the retrieval floor rejects unrelated questions early.
-- **Security:** PBKDF2-SHA256 (200k iterations) password hashes, signed JWT tokens, role-based
-  authorization on every KB endpoint, session ownership checks.
